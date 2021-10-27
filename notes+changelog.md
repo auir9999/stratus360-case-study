@@ -34,5 +34,5 @@ cross-fetch (temporarily - xkcd-api depending on question's response)
 ----------------------
 CHANGELOG - NOTE: progress is slow due to educational priorities
 ----------------------
-25/10/2021: received email, establish plan on how to create, established notes + changelog page
-26/10/2021: delayed reply to email, requesting further information, establishing base code (awaiting response)
+25/10/2021: received email, establish plan on how to create, established notes + changelog page  
+26/10/2021: delayed reply to email, requesting further information, establishing base code (awaiting response)  
