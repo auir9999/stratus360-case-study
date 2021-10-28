@@ -29,10 +29,11 @@ plan (side):
 list of npm installs:
 express
 express-handlebars
-cross-fetch (temporarily - xkcd-api depending on question's response)
+cross-fetch (includes node-fetch) //alternative of xkcd-api  
 
 ----------------------
 CHANGELOG - NOTE: progress is slow due to educational priorities
 ----------------------
 25/10/2021: received email, establish plan on how to create, established notes + changelog page
-26/10/2021: delayed reply to email, requesting further information, establishing base code (awaiting response)
+26/10/2021: delayed reply to email, requesting further information, establishing base code (awaiting response)  
+27/10/2021: established base code (using own implementation via cross-fetch, may also include a more succinct version in comments using available apis online), ensuring functions are all working & ready for HTML implementation  
