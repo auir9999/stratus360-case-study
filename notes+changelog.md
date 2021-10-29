@@ -37,3 +37,10 @@ CHANGELOG - NOTE: progress is slow due to educational priorities
 25/10/2021: received email, establish plan on how to create, established notes + changelog page  
 26/10/2021: delayed reply to email, requesting further information, establishing base code (awaiting response)  
 27/10/2021: established base code (using own implementation via cross-fetch, may also include a more succinct version in comments using available apis online), ensuring functions are all working & ready for HTML implementation  
+28/10/2021: completed majority of core functionalities ( display latest comic on home, display only 1 per page, next & prev button, display publish date, parsable by inputting # at the top, parse transcript to be readable), bonus functionalities added (random button). Hosted project onto heroku, majority of work completed
+
+----------------------  
+Things left to do:  
+----------------------  
+core: CSS & HTML adjustments
+bonus: responsive, counter (possibly a read/write from local file, would have liked to consider implementing it in the database object if possible)
