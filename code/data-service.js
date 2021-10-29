@@ -8,7 +8,6 @@ module.exports.getLatest = function () {
                 return res.json();
             })
             .then(res => {
-                console.log(JSON.stringify(res));
                 resolve(res);
             })
             .catch(() => {
@@ -23,7 +22,6 @@ module.exports.getComic = function (comicNum) {
                 return res.json();
             })
             .then(res => {
-                console.log(JSON.stringify(res));
                 resolve(res);
             })
             .catch(() => {
@@ -31,4 +29,3 @@ module.exports.getComic = function (comicNum) {
             });
     });
 };
-
