@@ -1,3 +1,61 @@
 ul{
     list-style-type:none;
 }
+
+a{
+    background-color: gray;
+    border:none;
+    color:white;
+    padding: 15px 32px;
+    display:inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size:100%;
+    margin: 4px 2px;
+}
+
+body{
+    background-color: rgb(179, 183, 199);
+    text-align: center;
+    width:50%;
+    max-width: 700px;
+    margin: 0px auto;
+}
+
+pre{
+    text-align:center;
+    white-space: pre-wrap;
+    word-break: keep-all;
+    background-color:rgb(250,250,250);
+    padding: 15px 32px;
+}
+
+.navbar-brand{
+    background-color: lightgray;
+    font-size:200%;
+    display:inline-block;
+    border:20px black;
+    padding:5px;
+    margin:4px;
+}
+
+.body-core{
+    background-color: rgb(149, 153, 173);
+    padding:5px;
+}
+.viewCount{
+    background-color: white;
+    padding: 5px 10px;
+    display:inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size:100%;
+    margin: 4px 2px;
+}
+
+h1{
+    background-color: lightgray;
+    display:inline-block;
+    padding:5px;
+    margin:4px;
+}
