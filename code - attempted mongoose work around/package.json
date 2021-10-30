@@ -1,0 +1,20 @@
+{
+  "name": "deployment",
+  "version": "1.0.0",
+  "description": "Stratus360 case study code for Heroku Deployment",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-fetch": "^3.1.4",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "init": "^0.1.2",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Wang",
+  "license": "ISC"
+}

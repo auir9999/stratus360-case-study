@@ -11,6 +11,8 @@ const app = express();
 
 const HTTP_PORT = process.env.PORT || 8080;
 
+//implemented an FS version of a saving & reading files, due to Heroku being ephemeral for free versions - redone system to use mongodb
+
 //establishing variables as "global" because:
 //pros: the data being globalled are not sensitive data, allows for reduction in redundant code, only needs to initialize once.
 //cons: global variables can be a risk factor if it is sensitive data
@@ -18,7 +20,7 @@ var latest;
 var next;
 var previous;
 var randomNum;
-//var viewCount = {};
+var viewCount;
 
 //setup for 4.16 express bodyparsing
 app.use(express.json());
@@ -60,10 +62,12 @@ app.get("/", (req, res) => {
         //updates the next, previous and random comic values - refer to function for detail
         updateButtonNums(data);
         if(data){
-            //crude way of updating view count of the page, refer to note in app.listen()'s read stage
-            /* viewCount[data.num-1]++;
+            /* //crude way of updating view count of the page, refer to note in app.listen()'s read stage
+            viewCount[data.num-1]++;
             updateViewCounts(); */
-            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum/*,  viewCount:viewCount[data.num-1] */});
+            addView(data.num);
+            viewCount = getViews(data.num);
+            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum, viewCount:viewCount.comicViewCount});
         }else{
             res.status(404).send("comic not found - latest");
         }
@@ -78,10 +82,12 @@ app.get("/comic/:comicNum", (req, res) => {
         //updates the next, previous and random comic values - refer to function for detail
         updateButtonNums(data);
         if(data){
-            //crude way of updating view count of the page, refer to note in app.listen()'s read stage
-            /* viewCount[data.num-1]++;
+            /* //crude way of updating view count of the page, refer to note in app.listen()'s read stage
+            viewCount[data.num-1]++;
             updateViewCounts(); */
-            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum/*,  viewCount:viewCount[data.num-1] */});
+            addView(data.num);
+            viewCount = getViews(data.num);
+            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum, viewCount:viewCount.comicViewCount});
         }else{
             res.status(404).send("comic not found - comicNum");
         }
@@ -108,8 +114,8 @@ updateButtonNums = function(data){
     randomNum = Math.floor(Math.random() * latest) + 1;
 }
 
-//crude method of writing everytime called on by new page loads, to ensure that data is not lost
-/* updateViewCounts = function(){
+/* //crude method of writing everytime called on by new page loads, to ensure that data is not lost
+updateViewCounts = function(){
     fs.writeFile("viewCount.txt", viewCount, (err) => {
         if (err){
             console.log(err);
@@ -117,15 +123,43 @@ updateButtonNums = function(data){
       });
 } */
 
+getViews = function(comicNum){
+    data.getViewCount(comicNum)
+    .then((data)=>{
+        return data.viewCount;
+    })
+    .catch(()=>{
+        console.log("error");
+    })
+}
+newComic = function(comicNum){
+    data.addViewCount(comicNum)
+    .then((data)=>{
+        res.json(data);
+    })
+    .catch(()=>{
+        console.log("error");
+    })
+}
+addView = function(comicNum){
+    data.updateViewCount(comicNum)
+    .then((data)=>{
+        return data.viewCount;
+    })
+    .catch(()=>{
+        console.log("error");
+    })
+}
+
 //launching server application
 app.listen(HTTP_PORT, () => {
     //grabbing the latest comic to act as total comics available
     data.getLatest().then((data)=>{
         latest = data.num;
     })
-    //crude way of using local reading & updating the file for the view count for each comic.
+    /* //crude way of using local reading & updating the file for the view count for each comic.
     //OPTIMAL: implementing it as a portion of the database server ie. if the xkcd comics were on a MongoDB, I could add a view count element to it.
-    /* fs.readFile("viewCount.txt", "utf-8", (err, data) => {
+    fs.readFile("viewCount.txt", "utf-8", (err, data) => {
         viewCount=data.split(',').map(Number);
       });
       
@@ -136,5 +170,10 @@ app.listen(HTTP_PORT, () => {
         }
         updateViewCounts();
     } */
+    if(getTotal()<latest){
+        for(i = getTotal();i < latest; i++){
+            newComic(i);
+        }
+    }
     console.log("Ready to handle requests on port " + HTTP_PORT);
 });

@@ -2,7 +2,7 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-//const fs = require("fs");
+const fs = require("fs");
 const exphbs = require('express-handlebars');
 const data = require("./data-service.js");
 const { response } = require("express");
@@ -18,7 +18,7 @@ var latest;
 var next;
 var previous;
 var randomNum;
-//var viewCount = {};
+var viewCount = {};
 
 //setup for 4.16 express bodyparsing
 app.use(express.json());
@@ -61,9 +61,9 @@ app.get("/", (req, res) => {
         updateButtonNums(data);
         if(data){
             //crude way of updating view count of the page, refer to note in app.listen()'s read stage
-            /* viewCount[data.num-1]++;
-            updateViewCounts(); */
-            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum/*,  viewCount:viewCount[data.num-1] */});
+            viewCount[data.num-1]++;
+            updateViewCounts();
+            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum, viewCount:viewCount[data.num-1]});
         }else{
             res.status(404).send("comic not found - latest");
         }
@@ -79,9 +79,9 @@ app.get("/comic/:comicNum", (req, res) => {
         updateButtonNums(data);
         if(data){
             //crude way of updating view count of the page, refer to note in app.listen()'s read stage
-            /* viewCount[data.num-1]++;
-            updateViewCounts(); */
-            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum/*,  viewCount:viewCount[data.num-1] */});
+            viewCount[data.num-1]++;
+            updateViewCounts();
+            res.render("comic",{data:data, next:next, previous:previous, randomNum:randomNum, viewCount:viewCount[data.num-1]});
         }else{
             res.status(404).send("comic not found - comicNum");
         }
@@ -109,13 +109,13 @@ updateButtonNums = function(data){
 }
 
 //crude method of writing everytime called on by new page loads, to ensure that data is not lost
-/* updateViewCounts = function(){
+updateViewCounts = function(){
     fs.writeFile("viewCount.txt", viewCount, (err) => {
         if (err){
             console.log(err);
         }
       });
-} */
+}
 
 //launching server application
 app.listen(HTTP_PORT, () => {
@@ -125,7 +125,7 @@ app.listen(HTTP_PORT, () => {
     })
     //crude way of using local reading & updating the file for the view count for each comic.
     //OPTIMAL: implementing it as a portion of the database server ie. if the xkcd comics were on a MongoDB, I could add a view count element to it.
-    /* fs.readFile("viewCount.txt", "utf-8", (err, data) => {
+    fs.readFile("viewCount.txt", "utf-8", (err, data) => {
         viewCount=data.split(',').map(Number);
       });
       
@@ -135,6 +135,6 @@ app.listen(HTTP_PORT, () => {
             viewCount.push(0);
         }
         updateViewCounts();
-    } */
+    }
     console.log("Ready to handle requests on port " + HTTP_PORT);
 });
